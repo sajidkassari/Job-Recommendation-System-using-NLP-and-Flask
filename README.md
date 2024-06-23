@@ -18,9 +18,9 @@ Live website: [Job Recommendation System](https://sajidkassari.pythonanywhere.co
 
 
 ## About the Database
-- ** The Database is converted from a dataset of approx 30,000 values which is taken from kaggle (https://www.kaggle.com/datasets/ravindrasinghrana/job-description-dataset).
-- ** But there is a file called unique_db which only consists of jobs with unique description. Because during the recommendation all the similar jobs had same description and that jobs were only fetched.
-- ** Therefore I created a unique database which narrowed the values from 30,000 to 371.
+- **The Database is converted from a dataset of approx 30,000 values which is taken from kaggle (https://www.kaggle.com/datasets/ravindrasinghrana/job-description-dataset).
+- **But there is a file called unique_db which only consists of jobs with unique description. Because during the recommendation all the similar jobs had same description and that jobs were only fetched.
+- **Therefore I created a unique database which narrowed the values from 30,000 to 371.
 
 ## Installation
 
