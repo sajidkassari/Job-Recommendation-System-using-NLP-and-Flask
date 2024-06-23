@@ -30,6 +30,20 @@ Live website: [Job Recommendation System](https://sajidkassari.pythonanywhere.co
 - Flask
 - SQLite
 
+
+## Usage
+- Access the application at http://localhost:5000.
+- Upload a resume to get job recommendations.
+- Use the search functionality to find jobs based on specific criteria.
+- Sign up and log in to manage your profile.(still remaining)
+- 
+## File Structure
+- **app.py**: Main Flask application file.
+- **templates/**: HTML templates for rendering the web pages.
+- **static/**: Static files (CSS, JavaScript).
+- **unique_database.db**: SQLite database file.
+- **requirements.txt**: List of Python dependencies.
+
 ## Contributing
 
 Contributions are welcome! Please fork the repository and create a pull request to contribute to the project.
