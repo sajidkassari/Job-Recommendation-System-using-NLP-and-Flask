@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Job Listings</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .job-listing {
+            border: 2px solid #e5e7eb;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .search-container input[type="text"], 
+        .search-container button {
+            padding: 10px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 5px;
+        }
+        .job-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .matching-percentage, h1 {
+            font-weight: bold;
+            color: #3182ce;
+            margin-bottom: 20px;
+        }
+        .job-detail {
+            margin-bottom: 10px;
+        }
+        body, h1, h2, h3, p, a, input, button, summary {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="text-white bg-blue-500 p-4 flex justify-between items-center">
+        <div>
+            <h2 class="text-4l font-bold">👾JRS</h1>
+        </div>
+        <div class="space-x-4">
+            <a href="{{ url_for('index') }}" class="text-white">Home</a>
+            <a href="{{ url_for('job_listings') }}" class="text-white">Jobs</a>
+            <a href="{{ url_for('search_result') }}" class="text-white">Search</a>
+            <a href="#" class="text-white">About</a>
+            <a href="#" class="text-white">Contact</a>
+        </div>
+        <div>
+            {% if user_logged_in %}
+                <a href="{{ url_for('logout') }}" class="text-white"></a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="text-white">_______</a>
+            {% endif %}
+        </div>
+    </nav>
+
+     <!-- Search Bar -->
+    <form action="{{ url_for('search_jobs') }}" method="GET" class="flex items-center justify-center mt-8">
+        <div class="w-1/2 p-4 border border-gray-200 rounded-md flex">
+            <input type="text" name="query" placeholder="Search for jobs..." class="border border-gray-300 rounded-l-md px-4 w-full py-2">
+            <button type="submit" class="bg-blue-500 text-white px-4 rounded-r-md py-2">Search</button>
+        </div>
+    </form>
+</div>
+
+<hr class="my-8">
+<!-- Recommended Job Listings -->
+<div class="container mx-auto">
+    <h1 class="text-3xl font-semibold text-center mb-8">Recommended Job Listings</h1>
+    {% for job in job_listings %}
+    <div class="job-listing">
+        <!-- Section 1: Matching Percentage -->
+        <div class="mb-6 border-b border-gray-300 pb-6">
+            <h2 class="text-xl font-semibold">Matching Percentage</h2>
+            <p class="matching-percentage"><strong>{{ job['Matching_Percentage'] }}%</strong></p>
+        </div>
+        
+        <!-- Section 2: Company Name and Salary Range -->
+        <div class="mb-6 border-b border-gray-300 pb-6">
+            <div class="job-detail flex justify-between">
+                <p><strong>Company:</strong> {{ job['Company'] }}</p>
+            </div>
+            <div class="job-detail flex justify-between">
+                <p><strong>Salary Range:</strong> {{ job['Salary Range'] }}</p>
+            </div>
+        </div>
+        
+        <!-- Section 3: Job Title, Role, Qualifications, and Experience -->
+        <div class="mb-6 border-b border-gray-300 pb-6">
+            <div class="job-detail">
+                <p><strong>Job Title/Role:</strong> {{ job['Job Title'] }}<p> {{ job['Role'] }}</p>
+                <p><strong>Qualifications:</strong> {{ job['Qualifications'] }}</p>
+                <p><strong>Experience:</strong> {{ job['Experience'] }}</p>
+            </div>
+        </div>
+        
+        <!-- Section 4: Job Description, Responsibilities, and Skills -->
+        <div class="mb-6 border-b border-gray-300 pb-6">
+            <div class="job-detail">
+                <p><strong>Job Description:</strong></p>
+                <p>{{ job['Job Description'] }}</p>
+                <p>{{ job['Responsibilities'] }}</p>
+                <hr class="my-8">
+                <p><strong>Skills: </strong>{{ job['skills'] }}</p>
+            </div>
+        </div>
+        
+        <!-- Section 5: Location and Country -->
+        <div class="mb-6 border-b border-gray-300 pb-6">
+            <div class="job-detail">
+                <p><strong>Location:</strong> {{ job['location'] }}</p>
+                <p><strong>Country:</strong> {{ job['Country'] }}</p>
+            </div>
+        </div>
+        
+        <!-- Section 6: Work Type and Preference -->
+        <div class="mb-6 border-b border-gray-300 pb-6">
+            <div class="job-detail">
+                <p><strong>Work Type:</strong> {{ job['Work Type'] }}</p>
+                <p><strong>Preference:</strong> {{ job['Preference'] }}</p>
+            </div>
+        </div>
+        
+        <!-- Section 7: Contact and Job Portal -->
+        <div class="mb-6 border-b border-gray-300 pb-6">
+            <div class="job-detail">
+                <p><strong>Contact Person:</strong> {{ job['Contact Person'] }}</p>
+                <p><strong>Contact:</strong> {{ job['Contact'] }}</p>
+                <p><strong>Job Portal:</strong> {{ job['Job Portal'] }}</p>
+            </div>
+        </div>
+        
+        <!-- Section 8: Benefits -->
+        <div class="mb-6 pb-6">
+            <h2 class="text-xl font-semibold">Benefits</h2>
+            <div class="job-detail">
+                <p>{{ job['Benefits'] }}</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>

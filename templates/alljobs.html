@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Latest Jobs</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .job-listing {
+            border: 2px solid #e5e7eb;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .search-container input[type="text"], 
+        .search-container button {
+            padding: 10px 20px;
+            border: 2px solid #e5e7eb;
+            border-radius: 5px;
+        }
+        .job-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        .matching-percentage, h2 {
+            font-weight: bold;
+            color: #3182ce;
+            margin-bottom: 20px;
+        }
+        .job-detail {
+            margin-bottom: 10px;
+        }
+        body, h1, h2, h3, p, a, input, button, summary {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="text-white bg-blue-500 p-4 flex justify-between items-center">
+        <div>
+            <h2 class="text-4l font-bold">👾JRS</h1>
+        </div>
+        <div class="space-x-4">
+            <a href="{{ url_for('index') }}" class="text-white">Home</a>
+            <a href="{{ url_for('job_listings') }}" class="text-white">Jobs</a>
+            <a href="{{ url_for('search_result') }}" class="text-white">Search</a>
+            <a href="#" class="text-white">About</a>
+            <a href="#" class="text-white">Contact</a>
+        </div>
+        <div>
+            {% if user_logged_in %}
+                <a href="{{ url_for('logout') }}" class="text-white"></a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="text-white">_______</a>
+            {% endif %}
+        </div>
+    </nav>
+
+     <!-- Search Bar -->
+    <form action="{{ url_for('search_jobs') }}" method="GET" class="flex items-center justify-center mt-8">
+        <div class="w-1/2 p-4 border border-gray-200 rounded-md flex">
+            <input type="text" name="query" placeholder="Search for jobs..." class="border border-gray-300 rounded-l-md px-4 w-full py-2">
+            <button type="submit" class="bg-blue-500 text-white px-4 rounded-r-md py-2">Search</button>
+        </div>
+    </form>
+</div>
+
+    <div class="container mx-auto mt-8">
+        <h2 class="text-2xl font-semibold">Exploring All Jobs</h2>
+
+        <!-- Job Cards -->
+        <div class="grid grid-cols-3 gap-8">
+            {% for row in grouped_jobs %}
+                {% for job in row %}
+                <div class="bg-white rounded-md shadow-md p-6">
+                    <b><h3 class="text-lg mb-2">Company:</b> {{ job.company }}</h3>
+                        <b><p class="text-gray-600  mb-2">Job Title:</b> {{ job.title }}</p>
+                        <b><p class="text-gray-600 mb-2">Location:</b> {{ job.location }}</p>
+                        <b><p class="text-gray-600 mb-2">Salary:</b> {{ job.salary_range }}</p>
+                        <b><p class="text-gray-600 mb-2">Type:</b> {{ job.worktype }}</p>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

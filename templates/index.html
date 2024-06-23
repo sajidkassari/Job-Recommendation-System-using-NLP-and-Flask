@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Recommendation System</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        .section {
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 40px;
+            margin-bottom: 40px;
+        }
+        body, h1, h2, h3, p, a, input, button, summary {
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Navbar -->
+    <nav class="text-white bg-blue-500 p-4 flex justify-between items-center">
+        <div>
+            <h2 class="text-4l font-bold">👾JRS</h1>
+        </div>
+        <div class="space-x-4">
+            <a href="{{ url_for('index') }}" class="text-white">Home</a>
+            <a href="{{ url_for('job_listings') }}" class="text-white">Jobs</a>
+            <a href="{{ url_for('search_result') }}" class="text-white">Search</a>
+            <a href="#" class="text-white">About</a>
+            <a href="#" class="text-white">Contact</a>
+        </div>
+        <div>
+            {% if user_logged_in %}
+                <a href="{{ url_for('logout') }}" class="text-white"></a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="text-white">_______</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Tagline and Description -->
+    <div class="container mx-auto text-center mt-8">
+        <h1 class="text-4xl font-bold">Your Dream Job Awaits</h1>
+        <p class="text-gray-600 mt-4">Find the perfect job for you. Explore our vast database of job listings.</p>
+    </div>
+
+    <hr class="my-8">
+
+
+    <!-- Resume Upload Section -->
+    <div class="container mx-auto mt-8 flex justify-center">
+        <div class="w-1/2 p-4 border border-gray-200 rounded-md">
+            <h2 class="text-xl font-semibold mb-4">Upload Your Resume</h2>
+            <form action="{{ url_for('upload_file') }}" method="post" enctype="multipart/form-data" class="flex items-center justify-between">
+                <input type="file" name="file" id="resume" class="border border-gray-300 rounded-md py-2 px-4 mr-4 w-3/4">
+                <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-md">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <hr class="my-8">
+
+
+
+ <!-- Search Bar -->
+<div class="section container mx-auto">
+    <form action="{{ url_for('search_jobs') }}" method="GET" class="flex items-center justify-center mt-8">
+        <div class="w-1/2 p-4 border border-gray-200 rounded-md flex">
+            <input type="text" name="query" placeholder="Search for jobs..." class="border border-gray-300 rounded-l-md px-4 w-full py-2">
+            <button type="submit" class="bg-blue-500 text-white px-4 rounded-r-md py-2">Search</button>
+        </div>
+    </form>
+</div>
+
+    <hr class="my-8">
+
+
+    <!-- Explore Latest Jobs -->
+    <div class="container mx-auto mt-8">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-semibold">Explore Latest Jobs</h2>
+            <div class="flex items-center">
+                <form id="refresh-form" action="/refresh_jobs" method="POST">
+                    <button type="submit" class="bg-blue-500 text-white inline-block px-4 py-2 rounded-md mt-2">View all</button>
+                </form>
+            </div>
+        </div>
+        <hr class="my-8">
+
+        <!-- Job Cards -->
+        <div class="grid grid-cols-3 gap-8">
+            {% for row in grouped_jobs %}
+                {% for job in row %}
+                    <div class="bg-white rounded-md shadow-md p-6">
+                    <b><h3 class="text-lg mb-2">Company:</b> {{ job.company }}</h3>
+                        <b><p class="text-gray-600  mb-2">Job Title:</b> {{ job.title }}</p>
+                        <b><p class="text-gray-600 mb-2">Location:</b> {{ job.location }}</p>
+                        <b><p class="text-gray-600 mb-2">Salary:</b> {{ job.salary_range }}</p>
+                        <b><p class="text-gray-600 mb-2">Type:</b> {{ job.worktype }}</p>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <hr class="my-8">
+
+
+    <!-- Why Choose Us -->
+<div class="container mx-auto mt-8">
+    <h2 class="text-2xl font-semibold">Why Choose Us</h2>
+    <p class="text-gray-600 mt-2">At JRS, we strive to be your ultimate career partner. Here's why you should choose us:</p>
+    <ul class="list-disc mt-4 text-gray-600">
+        <li>Extensive Job Database: Access a vast array of job listings from top companies.</li>
+        <li>Personalized Recommendations: Receive tailored job recommendations based on your skills and preferences.</li>
+        <li>User-friendly Interface: Navigate effortlessly through our platform for a seamless job search experience.</li>
+        <li>Professional Support: Our team of experts is dedicated to assisting you at every step of your job search journey.</li>
+        <li>Community Engagement: Connect with like-minded individuals and industry professionals through our community forums.</li>
+    </ul>
+</div>
+
+<hr class="my-8">
+
+
+<!-- FAQ Section -->
+<div class="container mx-auto mt-8">
+    <h2 class="text-2xl font-semibold">FAQ</h2>
+    <!-- Add dropdown here -->
+    <div class="mt-4">
+        <details>
+            <summary class="text-lg font-semibold">How do I upload my resume?</summary>
+            <p class="text-gray-600 mt-2">To upload your resume, navigate to the "Upload Your Resume" section on our homepage and follow the instructions provided.</p>
+        </details>
+        <details class="mt-4">
+            <summary class="text-lg font-semibold">Can I search for jobs based on resume?</summary>
+            <p class="text-gray-600 mt-2">Yes, you can search for jobs based on resume using our upload resume feature. Simply upload your resume, and relevant job listings will be displayed.</p>
+        </details>
+        <details class="mt-4">
+            <summary class="text-lg font-semibold">Is there a fee for using your platform?</summary>
+            <p class="text-gray-600 mt-2">No, our platform is completely free to use for both job seekers and employers. There are no hidden fees or charges.</p>
+        </details>
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8 mt-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Quick Links</h2>
+                <div>
+                    <a href="{{ url_for('index') }}" class="text-white">Home</a>
+                    <a href="#" class="block text-gray-300 hover:text-white mb-2">About</a>
+                    <a href="#" class="block text-gray-300 hover:text-white mb-2">Contact</a>
+                </div>
+            </div>
+            <div>
+                <h2 class="text-xl font-semibold mb-4">Connect with Us</h2>
+                <div>
+                    <a href="#" class="block text-gray-300 hover:text-white mb-2">Facebook</a>
+                    <a href="#" class="block text-gray-300 hover:text-white mb-2">Twitter</a>
+                    <a href="#" class="block text-gray-300 hover:text-white mb-2">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
